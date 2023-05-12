@@ -11,7 +11,19 @@
             <h3>{{ gateau.name }}</h3>
             <a href="{{ path('app_gateau_show',{id:gateau.id}) }}" class="btn btn-primary">See</a>
             <p><strong>{{ gateau.description }}</strong></p>
+            
+            <div class="border border-dark m-3">
+                {% for image in gateau.images %}
+
+                    <img src="{{ vich_uploader_asset(image, 'imageFile')|imagine_filter('truc') }}" alt="">
+                    
+                    {% endfor %}
+                
+            </div>
+            
             <div class="border border-dark m-5">
+                
+                
                 {%for ingredient in gateau.ingredients %}
 
                     <p> - {{ ingredient.name }}</p>

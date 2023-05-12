@@ -45,8 +45,7 @@ class GateauController extends AbstractController
 
             foreach($images as $image){
 
-                $newImage = new Image();
-                $newImage->setGateau($gateau);
+                $image->setGateau($gateau);
 
             }
 
