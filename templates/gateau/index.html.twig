@@ -15,7 +15,7 @@
             <div class="border border-dark m-3">
                 {% for image in gateau.images %}
 
-                    <img src="{{ vich_uploader_asset(image, 'imageFile')|imagine_filter('truc') }}" alt="">
+                    <img src="{{ vich_uploader_asset(image, 'imageFile')|imagine_filter('vignette') }}" alt="">
                     
                     {% endfor %}
                 
@@ -31,7 +31,50 @@
                     {% endfor %}
             </div>
 
+       <p><strong>
+               <a href="{{ path('app_like', {id:gateau.id}) }}" class="btn like">
+                   <i class="thumb bi bi-hand-thumbs-up{% if gateau.isLikedBy(app.user) %}-fill{% endif %}"></i>
+                   <span class="nbrLikes">{{ gateau.likes|length}}</span>
+               </a>
+
+           </strong></p>
+
         </div>
 
     {% endfor %}
+
+    <script>
+
+
+        function like(event){
+            event.preventDefault()
+
+            fetch(this.href)
+                .then(response=>response.json())
+                .then((data)=>{
+                    console.log(this)
+                    this.querySelector('.nbrLikes').innerHTML = data.count
+                    if(data.liked){
+                        this.querySelector('.thumb').classList.remove('bi-hand-thumbs-up')
+                        this.querySelector('.thumb').classList.add('bi-hand-thumbs-up-fill')
+
+                    }else{
+                        this.querySelector('.thumb').classList.remove('bi-hand-thumbs-up-fill')
+                        this.querySelector('.thumb').classList.add('bi-hand-thumbs-up')
+
+
+                    }
+                })
+        }
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const boutonsLike = document.querySelectorAll('.like')
+
+            boutonsLike.forEach((bouton)=>{
+                bouton.addEventListener('click', like)
+            })
+        })
+
+    </script>
+
 {% endblock %}
